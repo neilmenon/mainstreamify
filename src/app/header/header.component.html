@@ -1,1 +1,43 @@
-<p>header works!</p>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <a class="mobile-menu-toggle" *ngIf="signed_in && user && (isHandset$ | async)" mat-button [matMenuTriggerFor]="menu">
+        <span>
+          <mat-icon aria-label="side menu">menu</mat-icon>
+        </span>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <span class="navbar-user-panel">
+            <img src="{{ user.profile_image }}" class="navbar-menu-user-image">
+            <span class="navbar-menu-username">
+              {{ user.username }}
+            </span>
+          </span>
+          <button mat-menu-item [routerLink]="['/']">Home</button>
+          <button mat-menu-item >Settings</button>
+          <button mat-menu-item [routerLink]="['/']">Sign Out</button>
+        </mat-menu>
+      </a>
+      <span [routerLink]="['/']" style="cursor: pointer;outline: none;">Mainstreamify </span> <span class="beta" style="cursor: pointer;outline: none;">BETA</span>
+      <span class="spacer"></span>
+      <span *ngIf="!(isHandset$ | async)">
+        <a *ngIf="signed_in && user" class="navbar-user-button" mat-button [matMenuTriggerFor]="menu">
+          <span>
+            <mat-icon aria-label="side menu">menu</mat-icon>
+          </span>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <span class="navbar-user-panel">
+              <img src="{{ user.profile_image }}" class="navbar-menu-user-image">
+              <span class="navbar-menu-username">
+                {{ user.username }}
+              </span>
+            </span>
+            <button mat-menu-item [routerLink]="['/']">Home</button>
+            <button mat-menu-item >Settings</button>
+            <button mat-menu-item [routerLink]="['/']">Sign Out</button>
+          </mat-menu>
+        </a>
+      </span>
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

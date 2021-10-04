@@ -1,4 +1,504 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html {
+    /* height: 100%; */
+}
+
+body {
+    margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+    height: 100%;
+    background-image: url(/assets/img/background.svg);
+    background-color: #222222;
+    color: #e2e2e2;
+    width: 85%;
+    margin: auto;
+}
+
+a {
+    color: darkseagreen;
+    text-decoration: none;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color: #c73e6c;
+}
+
+hr {
+    border: 1px solid #b3b2b2c7;
+    border-bottom: none;
+}
+
+@media (max-width: 600px) {
+    body {
+        width: 90%;
+    }
+}
+
+.app-container {
+    padding-top: 15px;
+}
+
+.center {
+    text-align: center;
+}
+.center-all {
+    text-align: center;
+    margin: auto;
+    display: block;
+}
+.center-h-v {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    text-align: center;
+    width: 100%;
+}
+
+.mat-toolbar.mat-primary {
+    background: transparent;
+    border-bottom: 1px solid #5a5a5a;
+    margin: auto;
+    overflow: hidden;
+}
+
+.mat-drawer-container {
+    background-image: url(/assets/img/background.svg);
+    background-color: #222222;
+    color: rgb(226, 226, 226);
+}
+
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary, .primary {
+    background-color: #1db954;
+}
+.mat-flat-button.mat-warn, .mat-raised-button.mat-warn, .mat-fab.mat-warn, .mat-mini-fab.mat-warn, .warn {
+    background-color: #716340;
+}
+.clickable {
+    cursor: pointer;
+}
+.spacer {
+    flex: 1 1 auto;
+}
+.clear-color, .clear-color-full {
+    color: #e2e2e2;
+}
+.clear-color:hover {
+    color: darkseagreen;
+}
+.refresh, .np-scrobble-history {
+    position: absolute;
+    top: -10px;
+    color: #e2e2e2;
+    font-size: 21px;
+}
+.refresh {
+    right: -10px;
+}
+.left-cmd-buttons {
+    position: absolute;
+    font-size: 21px;
+    top: -10px;
+    left: -10px;
+}
+.left-cmd-buttons > span {
+    font-size: 13px;
+    line-height: 20.5px;
+    position: absolute;
+    white-space: nowrap;
+    left: 24px;
+}
+.np-scrobble-history {
+    right: 14px;
+}
+.refresh:hover, .np-scrobble-history:hover {
+    color: darkseagreen;
+}
+
+.box {
+    overflow: auto;
+    background: rgba(255,255,255,0.08);
+    margin-bottom: 15px;
+    padding: 15px 15px 0px 15px;
+}
+.box-title {
+    margin-bottom: 0px!important;
+}
+.box-button {
+    margin-top: 7px;
+    margin-left: 7px;
+    display: none;
+}
+.box-form {
+    display: inherit;
+    width: 100%;
+}
+.container {
+    display: flex;
+    /* https://stackoverflow.com/questions/10422949/css-background-opacity */
+}
+.container > div {
+    flex: 1;
+}
+.container > div:not(:last-child) {
+    margin-right: 15px;
+}
+
+.lastfm-icon {
+    color: #e2e2e2;
+}
+.command-box {
+    height: 300px;
+}
+.group-panel {
+    background: transparent;
+}
+.command-result {
+    padding-bottom: 10px;
+}
+
+.command-result > table {
+    width: 100%;
+    border-collapse: collapse;
+    background-image: url(/assets/img/background.svg);
+    background: #222222;
+}
+.history-result > table {
+    width: 100%;
+    border-collapse: collapse;
+    background-image: url(/assets/img/background.svg);
+    background: #222222;
+}
+.command-result > table th, .history-result > table th {
+    /* border: 0.1px solid rgba(191, 191, 191, 0.534); */
+    color: #c73e6c;
+    font-weight: 400;
+    padding: 0px;
+}
+.command-result > table th,td {
+    border: none;
+}
+.command-result > table > tbody > tr:nth-child(odd), .history-result > table > tbody > tr:nth-child(odd) {
+    background: rgb(44, 44, 44);
+}
+.table-border {
+    border: 0.5px solid #bfbfbf3d;
+    padding: 2px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 350px;
+    text-overflow: ellipsis;
+}
+.sticky-table-header th {
+    position: sticky;
+    top: -1px;
+    background: #212121;
+    box-shadow: inset 0.5px 0.5px #bfbfbf3d, 0 0.5px #bfbfbf3d;
+}
+.command-result-summary {
+    padding-bottom: 5px;
+}
+.command-result-summary > a:first-child {
+    color: #e2e2e2;
+    font-size: 18px;
+}
+.command-result-summary > a:first-child:hover {
+    color: darkseagreen;
+}
+.group-dashboard-header {
+    padding-bottom: 10px;
+    position: relative;
+}
+.group-collapsed {
+    background: #6986a240;;
+    padding: 0.75rem!important;
+    border-radius: 1rem;
+    margin-bottom: 15px;
+}
+.group-dashboard-expand {
+    position: absolute!important;
+    right: 0.2rem;
+    top: -0.2rem;
+}
+.group-dashboard-collapse {
+    position: absolute!important;
+    right: 0.1rem;
+    top: -0.4rem;
+}
+.group-dashboard-header > h1 {
+    color: #bfbfbf;
+    max-width: 85%;
+    margin: auto;
+}
+.group-dashboard-subtext {
+    display: flex; 
+    padding: 0px 5px;
+    padding-top: 3px;
+}
+.now-playing-container {
+    height: 255px;
+}
+.now-playing-artwork-container {
+    width: 110px;
+    height: 110px;
+    margin: auto;
+}
+.now-playing-details {
+
+    margin: auto;
+}
+.now-playing-details span {
+    width: 150px;
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+    margin: auto;
+}
+.now-playing-box {
+    flex-wrap: wrap;
+    padding: 5px;
+}
+.now-playing-box:hover {
+    background: #bfbfbf21;
+}
+.now-playing-errors {
+    margin-top: 75px;
+}
+.now-playing-track:after {
+    content: url(/assets/img/nowplaying.gif);
+    display: inline-block;
+    margin-left: 2px;
+    position: relative;
+    top: 1px;
+}
+.recently-played-track {
+    color: #bfbfbf;
+    margin-left: 2px;
+    font-size: 13px;
+}
+/* .group-dashboard-subtext > span:last-child{
+    width: 45%;
+    max-width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: right;
+} */
+.beta {
+    background: #ba0000;
+    padding: 4px;
+    border-radius: 3px;
+    margin-left: 4px;
+    margin-top: 2px;
+    font-size: 12px;
+    line-height: 14px;
+}
+.history-options-container {
+    display: flex;
+}
+.mat-dialog-content.history-result {
+    margin: 0;
+    padding: 0;
+}
+div.history-options-container > mat-paginator {
+    margin-right: -15px;
+}
+@media screen and (max-width: 526px) {
+    .history-options-container {
+        flex-wrap: wrap;
+    }
+    .history-options, .mat-paginator-container {
+        align-items: center!important;
+        justify-content: center!important;
+        flex-wrap: wrap!important;
+    }
+    .mat-paginator-page-size {
+        margin-right: 0px!important;
+    }
+    div.history-options-container > div.spacer {
+        display: none;
+    }
+}
+.history-options {
+    font-size: 12px;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap-reverse;
+}
+.mat-paginator-container {
+    align-items: baseline!important;
+    padding: 0px!important;
+}
+.history-options > mat-form-field {
+    padding-right: 5px;
+}
+
+@media screen and (max-width: 960px) {
+    .container:not(.now-playing-container > .container):not(#group-detail > .container):not(.session-members) {
+        display: block;
+    }
+    .container:not(.now-playing-container > .container):not(#group-detail > .container):not(.session-members) > div {
+        flex: none;
+    }
+    .container > div:not(:last-child) {
+        margin-right: 0;
+    }
+    .now-playing-container {
+        height: 355px;
+    }
+    .now-playing-errors {
+        margin-top: 125px;
+    }
+    .history-table-artist {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 330px) {
+    .container.session-members {
+        display: block;
+    }
+    .container.session-members > div {
+        flex: none;
+    }
+}
+
+@media screen and (max-width: 990px) {
+    .box-button {display: none;}
+}
+
+.tooltip {
+    background: #222222;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.group-session {
+    background: #517a8c;
+    position: absolute;
+    top: 33px;
+    right: 5px;
+    padding-right: 5px;
+}
+
+.group-session.normal-session {
+    background: #734db7;
+}
+
+.group-session.silent-session {
+    background: #7d7652;
+}
+
+.group-session > span {
+    padding-right: 1px;
+    padding-left: 2px;
+}
+
+.mat-dialog-container {
+    background-image: url(/assets/img/background.svg);
+}
+.mat-paginator {
+    background: transparent;
+}
+
+.mat-select-panel {
+    background-image: url(/assets/img/background.svg);
+    background-color: #222;
+}
+
+.mat-datepicker-content {
+    background-image: url(/assets/img/background.svg);
+    background-color: #222222;
+}
+
+.mat-slider-min-value:not(.mat-slider-thumb-label-showing) .mat-slider-thumb {
+    border-color: transparent!important;
+    background-color: #b0bec5!important;
+}
+.mat-autocomplete-panel {
+    background-image: url(/assets/img/background.svg);
+    background-color: #222222;
+}
+.mat-autocomplete-panel > mat-option {
+    height: 32px;
+    font-size: 13px;
+}
+.mat-autocomplete-panel .mat-option.mat-selected:not(.mat-active):not(:hover) {
+    background: transparent;
+    color: darkseagreen!important;
+}
+.mat-menu-panel {
+    background-image: url(/assets/img/background.svg)!important;
+}
+.mat-menu-content {
+    background: #8585852b!important;
+}
+.disable-click {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.wk-rank {
+    background: #1db954;
+    border-radius: 2.5px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 7px 6px 6px 6px;
+    line-height: 5.5px;
+    display: inline-block;
+    white-space: nowrap;
+}
+.wk-rank-num1 {
+    background: darkseagreen!important;
+    color: #000!important;
+}
+
+.kick {
+    color: #1db954;
+}
+.kick:hover {
+    color: unset;
+}
+
+
+/* SCROLLBARS */
+.wk-actions-dialog {
+    font-size: 18px;
+    padding: 1px 0px 0px 0px!important;
+}
+
+::-webkit-resizer {
+	background: transparent;
+}
+
+::-webkit-scrollbar {
+	width: 5px;
+	background: #222222;
+}
+
+::-webkit-scrollbar:horizontal {
+	height: 5px;
+	background-color: #222222;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb,
+ ::-webkit-scrollbar-thumb:horizontal {
+	border-radius: 7px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	background-color: #7a7a7a;
+}
+
+::-webkit-scrollbar-track-piece {
+	display: none;
+}

@@ -1,1 +1,15 @@
-<p>home works!</p>
+<div *ngIf="signed_in; else signInPrompt">
+    <div class="box">
+        Welcome to Mainstreamify!
+    </div>
+</div>
+<ng-template #signInPrompt>
+    <div *ngIf="!signed_in" class="center-h-v">
+        <h2>Welcome to Mainstreamify!</h2>
+        Mainstreamify puts some helpful numbers to your musical taste so you can better understand your listening habits.<br>
+        Sign in with your Spotify account to get started.<br><br>
+        <div>
+            <button color="primary" mat-raised-button style="margin-right: 1rem;">Sign In with Spotify</button>
+        </div>
+    </div>
+</ng-template>
