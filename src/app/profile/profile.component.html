@@ -1,0 +1,29 @@
+<!--   
+    Profile Schema:
+
+    username: string
+    profileImageUrl: string
+    spotifyProfileUrl: string
+    registeredDate: moment.Moment
+    email: string
+    followers: number
+    premium: boolean 
+-->
+<div class="box center">
+    <h1>Profile</h1>
+    <h2>{{ user.username }}</h2>
+    <p>{{ user.followers }} followers | Email: {{ user.email }} | Registered: {{ user.registeredDate.format("MM/DD/YYYY") }}</p>
+    <span style="display: block; padding: 1rem;">
+        User Status: 
+        <span class="beta" style="background-color: goldenrod;">
+            <mat-icon [inline]="true">{{ user.premium ? 'workspace_premium' : '' }}</mat-icon>
+            {{ user.premium ? 'PREMIUM' : 'FREE' }}
+        </span>
+    </span>
+    <img src="{{ user.profileImageUrl }}" class="navbar-menu-user-image hoverpic">
+    <div style="padding: 1rem;">
+        <a href="{{ user.spotifyProfileUrl }}" target="_blank" style="margin-right: 1rem;"><button color="primary" mat-raised-button>Open Spotify Profile</button></a>
+        <button color="accent" mat-raised-button (click)="goToProfile()">User Settings</button>
+    </div>
+    
+</div>

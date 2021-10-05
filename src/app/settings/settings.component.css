@@ -1,0 +1,25 @@
+.settings {
+    max-width: 75%;
+}
+.settings-option {
+    padding-bottom: 10px;
+}
+@media screen and (max-width: 960px) {
+    .settings {
+        max-width: 80%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .settings {
+        max-width: 100%;
+    }
+}
+.settings-form {
+    margin: auto;
+}
+.settings-form > mat-form-field {
+    font-size: 13px;
+}
+p {
+    color: #bfbfbf;
+}

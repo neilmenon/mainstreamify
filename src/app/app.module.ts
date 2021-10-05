@@ -36,13 +36,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { ProfileComponent } from './profile/profile.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ProfileComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -76,8 +80,11 @@ import { FooterComponent } from './footer/footer.component';
     MatSlideToggleModule,
     MatRadioModule,
     MatCheckboxModule,
+    MatButtonModule,
     RouterModule.forRoot([
-      {path: '', component: HomeComponent},
+      { path: '', component: HomeComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'profile/edit', component: SettingsComponent }
     ])
   ],
   providers: [],

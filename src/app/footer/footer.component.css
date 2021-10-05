@@ -1,8 +1,15 @@
 .footer {
     font-size: 13px;
     color: #bfbfbf;
-    padding-bottom: 10px;
     line-height: 18px;
+    position: fixed;
+    margin: auto;
+    padding-bottom: 10px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: url(/assets/img/background.svg);
+    background-color: #222222;
 }
 .footer a {
     color: #bfbfbf;

@@ -7,32 +7,34 @@
         </span>
         <mat-menu #menu="matMenu" xPosition="before">
           <span class="navbar-user-panel">
-            <img src="{{ user.profile_image }}" class="navbar-menu-user-image">
+            <img src="{{ user.profileImageUrl }}" class="navbar-menu-user-image">
             <span class="navbar-menu-username">
               {{ user.username }}
             </span>
           </span>
           <button mat-menu-item [routerLink]="['/']">Home</button>
-          <button mat-menu-item >Settings</button>
+          <button mat-menu-item [routerLink]="['profile']">Profile</button>
+          <button mat-menu-item [routerLink]="['profile/edit']">Settings</button>
           <button mat-menu-item [routerLink]="['/']">Sign Out</button>
         </mat-menu>
       </a>
-      <span [routerLink]="['/']" style="cursor: pointer;outline: none;">Mainstreamify </span> <span class="beta" style="cursor: pointer;outline: none;">BETA</span>
+      <span [routerLink]="['/']" style="cursor: pointer;outline: none;" aria-label="Mainstreamify">Mainstreamify </span> <span class="beta" style="cursor: pointer;outline: none;">BETA</span>
       <span class="spacer"></span>
       <span *ngIf="!(isHandset$ | async)">
-        <a *ngIf="signed_in && user" class="navbar-user-button" mat-button [matMenuTriggerFor]="menu">
+        <a *ngIf="signed_in && user" class="navbar-user-button" mat-button [matMenuTriggerFor]="menu" aria-label="open menu">
           <span>
             <mat-icon aria-label="side menu">menu</mat-icon>
           </span>
           <mat-menu #menu="matMenu" xPosition="before">
             <span class="navbar-user-panel">
-              <img src="{{ user.profile_image }}" class="navbar-menu-user-image">
+              <img src="{{ user.profileImageUrl }}" class="navbar-menu-user-image">
               <span class="navbar-menu-username">
                 {{ user.username }}
               </span>
             </span>
             <button mat-menu-item [routerLink]="['/']">Home</button>
-            <button mat-menu-item >Settings</button>
+            <button mat-menu-item [routerLink]="['profile']">Profile</button>
+            <button mat-menu-item [routerLink]="['profile/edit']">Settings</button>
             <button mat-menu-item [routerLink]="['/']">Sign Out</button>
           </mat-menu>
         </a>
