@@ -53,7 +53,7 @@ $router->get('/api/login', function (Request $request) {
         $result = DB::select("SELECT id FROM users WHERE id = ?", [$user['id']]);
         
         if (count($result) == 0) { // user does not exist in database, insert
-            DB::insert("INSERT INTO `users` (`id`, `username`, `profileImageUrl`, `spotifyProfileUrl`, `email`, `followers`, `premium`, `accessToken`, `refreshToken`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [$user['id'], $user['display_name'], $user['images'][0]['url'], $user['external_urls']['spotify'], $user['email'], $user['followers']['total'], $user['product'] == 'premium' ? 1 : 0, $session->getAccessToken(), $session->getRefreshToken()]);
+            DB::insert("INSERT INTO `users` (`id`, `username`, `profileImageUrl`, `spotifyProfileUrl`, `email`, `followers`, `premium`, `accessToken`, `refreshToken`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [$user['id'], $user['display_name'], $user['images'] ? $user['images'][0]['url'] : NULL, $user['external_urls']['spotify'], $user['email'], $user['followers']['total'], $user['product'] == 'premium' ? 1 : 0, $session->getAccessToken(), $session->getRefreshToken()]);
         } else { // user exists, update access and refresh tokens
             DB::update("UPDATE `users` SET `accessToken` = ?, `refreshToken` = ? WHERE `users`.`id` = ?", [$session->getAccessToken(), $session->getRefreshToken(), $user['id']]);
         }
@@ -91,7 +91,10 @@ $router->get('/api/test', function(Request $request) {
     return response()->json($_SESSION);
 });
 
-$router->get('/api/top', function() {
+$router->post('/api/top', function() {
+    if (!isSignedIn()) {
+        return abortIfNotAuthenticated();
+    }
     $user = getUserBySession();
     $api = getSpotifyApi($user['id']);
 
@@ -154,4 +157,10 @@ function getUserBySession() {
     } else {
         return NULL;
     }
+}
+
+function abortIfNotAuthenticated() {
+    return response()->json([
+        "error" => "You must be signed in to access this endpoint."
+    ], 401);
 }
