@@ -112,4 +112,7 @@ $app->router->group([
     require __DIR__.'/../routes/web.php';
 });
 
+/*  Start a native PHP session */
+session_start();
+
 return $app;
