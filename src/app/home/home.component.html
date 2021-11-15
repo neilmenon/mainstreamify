@@ -1,6 +1,10 @@
 <div *ngIf="signed_in; else signInPrompt">
     <div class="box">
-        Welcome to Mainstreamify!
+        <h2>Welcome to Mainstreamify {{"insert name here"}}</h2>
+        <div>
+            
+            <h3>Here's who you vibe with: {{"insert top artists here"}}</h3>
+        </div>
     </div>
 </div>
 <ng-template #signInPrompt>

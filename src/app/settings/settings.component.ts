@@ -24,8 +24,8 @@ export class SettingsComponent implements OnInit {
       description: []
     })
     this.settingsForm.valueChanges.pipe(debounceTime(1000), distinctUntilChanged()).subscribe(() => {
-      this.messageService.open("Successfully saved user settings.")
     })
+    
   }
 
   deleteAccount() {
@@ -34,5 +34,14 @@ export class SettingsComponent implements OnInit {
       this.router.navigate(['/'])
     }, 3000)
   }
+
+  validate(){
+
+
+    this.messageService.open("Successfully saved user settings.")
+    document.getElementById("savedtag").style.visibility = "visible";
+  }
+
+
 
 }

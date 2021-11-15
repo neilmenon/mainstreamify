@@ -32,6 +32,8 @@ CREATE TABLE `users` (
   `premium` tinyint(1) NOT NULL,
   `accessToken` varchar(191) DEFAULT NULL,
   `refreshToken` varchar(191) DEFAULT NULL,
+  'bio' varchar(500) DEFAULT NULL,
+
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;

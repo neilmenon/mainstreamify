@@ -25,6 +25,7 @@ List of Routes:
 /api/test - GET
 /api/top - POST
 
+php -S localhost:8000 -t public
 |
 */
 

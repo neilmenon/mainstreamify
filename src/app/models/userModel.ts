@@ -8,8 +8,6 @@ export class UserModel {
     email: string
     followers: number
     premium: boolean
-    updateEvery: number
-    dontSell: boolean
     bio: string
 
 
@@ -21,8 +19,6 @@ export class UserModel {
         this.email = null
         this.followers = null
         this.premium = null
-        this.updateEvery = 30;
-        this.dontSell = true;
         this.bio = "Bio bio things";
     }
 }

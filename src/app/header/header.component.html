@@ -18,7 +18,7 @@
           <button mat-menu-item [routerLink]="['/']">Sign Out</button>
         </mat-menu>
       </a>
-      <span [routerLink]="['/']" style="cursor: pointer;outline: none;" aria-label="Mainstreamify">Mainstreamify </span> <span class="beta" style="cursor: pointer;outline: none;">BETA</span>
+      <span [routerLink]="['/']" style="cursor: pointer;outline: none;" aria-label="Mainstreamify" id="headertext">Mainstreamify </span> <span class="beta" style="cursor: pointer;outline: none;">BETA</span>
       <span class="spacer"></span>
       <span *ngIf="!(isHandset$ | async)">
         <a *ngIf="signed_in && user" class="navbar-user-button" mat-button [matMenuTriggerFor]="menu" aria-label="open menu">
@@ -38,7 +38,7 @@
             <button mat-menu-item [routerLink]="['/']">Sign Out</button>
           </mat-menu>
         </a>
-        <button id="toggleTheme" color="primary">Toggle Theme</button>
+        <button color="accent" mat-raised-button id="toggleTheme" color="primary">Toggle Theme</button>
       </span>
     </mat-toolbar>
     <ng-content></ng-content>
