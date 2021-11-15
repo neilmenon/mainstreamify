@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container id="nav" class="sidenav-container">
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <a class="mobile-menu-toggle" *ngIf="signed_in && user && (isHandset$ | async)" mat-button [matMenuTriggerFor]="menu">
@@ -38,6 +38,7 @@
             <button mat-menu-item [routerLink]="['/']">Sign Out</button>
           </mat-menu>
         </a>
+        <button (click)="toggleColor()" color="primary">Toggle Theme</button>
       </span>
     </mat-toolbar>
     <ng-content></ng-content>

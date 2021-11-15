@@ -8,6 +8,10 @@ export class UserModel {
     email: string
     followers: number
     premium: boolean
+    updateEvery: number
+    dontSell: boolean
+    bio: string
+
 
     constructor() {
         this.username = "Neil Menon"
@@ -17,5 +21,8 @@ export class UserModel {
         this.email = "test@virginia.edu"
         this.followers = 546
         this.premium = true
+        this.updateEvery = 30;
+        this.dontSell = true;
+        this.bio = "Bio bio things";
     }
 }
