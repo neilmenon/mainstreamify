@@ -24,18 +24,4 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  toggleColor(){
-    if($("nav").hasClass("navlight")){
-      $("nav").removeClass("navlight")
-      $("nav").addClass("navdark")
-    }
-    else if($("nav").hasClass("navdark")){
-      $("nav").removeClass("navdark")
-      $("nav").addClass("navlight")
-    }
-    else{
-      $("nav").addClass("navdark")
-    }
-  }
-
 }

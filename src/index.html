@@ -45,6 +45,22 @@
 <body class="mat-typography">
   <app-root></app-root>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
+  <script>
+    $("toggleTheme").click(function() {
+      if($("nav").hasClass("navlight")){
+        console.log(document.getElementById("nav").className)
+        $("nav").removeClass("navlight")
+        $("nav").addClass("navdark")
+        console.log(document.getElementById("nav").className)
+      }
+      else if($("nav").hasClass("navdark")){
+        $("nav").removeClass("navdark")
+        $("nav").addClass("navlight")
+      }
+      else{
+        $("nav").addClass("navdark")
+      }
+    })
+</script>
 </body>
 </html>
