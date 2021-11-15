@@ -25,6 +25,7 @@ List of Routes:
 /api/test - GET
 /api/top - POST
 
+php -S localhost:8000 -t public
 |
 */
 
@@ -62,7 +63,7 @@ $router->get('/api/login', function (Request $request) {
         $result = DB::select("SELECT id FROM users WHERE id = ?", [$user['id']]);
         
         if (count($result) == 0) { // user does not exist in database, insert
-            DB::insert("INSERT INTO `users` (`id`, `username`, `profileImageUrl`, `spotifyProfileUrl`, `email`, `followers`, `premium`, `accessToken`, `refreshToken`, 'updateEvery', 'dontSell', 'bio') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$user['id'], $user['display_name'], $user['images'] ? $user['images'][0]['url'] : NULL, $user['external_urls']['spotify'], $user['email'], $user['followers']['total'], $user['product'] == 'premium' ? 1 : 0, $session->getAccessToken(), $session->getRefreshToken(), $user['updateEvery'], $user['dontSell'], $user['bio']]);
+            DB::insert("INSERT INTO `users` (`id`, `username`, `profileImageUrl`, `spotifyProfileUrl`, `email`, `followers`, `premium`, `accessToken`, `refreshToken`, `bio`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$user['id'], $user['display_name'], $user['images'] ? $user['images'][0]['url'] : NULL, $user['external_urls']['spotify'], $user['email'], $user['followers']['total'], $user['product'] == 'premium' ? 1 : 0, $session->getAccessToken(), $session->getRefreshToken(), "bio"]);
         } else { // user exists, update access and refresh tokens
             DB::update("UPDATE `users` SET `accessToken` = ?, `refreshToken` = ? WHERE `users`.`id` = ?", [$session->getAccessToken(), $session->getRefreshToken(), $user['id']]);
         }
@@ -147,7 +148,7 @@ function getSpotifyApi($userId) {
 }
 
 function getUser($id) {
-    $result = json_decode(json_encode(DB::select("SELECT id, username, profileImageUrl, spotifyProfileUrl, email, followers, premium, updateEvery, dontSell, bio FROM users WHERE id = ?", [$id])), true)[0];
+    $result = json_decode(json_encode(DB::select("SELECT id, username, profileImageUrl, spotifyProfileUrl, email, followers, premium, bio FROM users WHERE id = ?", [$id])), true)[0];
     
     # premium is stored as TINYINT in database, but we need it as a boolean in the JSON object we return
     $result['premium'] = $result['premium'] == 1;

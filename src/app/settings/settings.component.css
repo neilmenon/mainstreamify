@@ -23,3 +23,11 @@
 p {
     color: #bfbfbf;
 }
+
+.invisible{
+    visibility: hidden;
+}
+
+.visible{
+    visibility: visible;
+}
