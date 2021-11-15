@@ -14,6 +14,14 @@ export class HomeComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.userService.getUser().toPromise().then((data: any) => {
+      if (!data?.id) {
+        this.signed_in = false
+      } else {
+        this.signed_in = true
+        this.user = data
+      }
+    })
   }
 
   signOut() {
@@ -21,10 +29,7 @@ export class HomeComponent implements OnInit {
   }
 
   signIn() {
-    this.userService.signIn().toPromise().then((data: any) => {
-      this.user = data
-      this.signed_in = true
-    })
+    this.userService.signIn()
   }
 
 }

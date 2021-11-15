@@ -40,7 +40,7 @@ $router->get('/api/login', function (Request $request) {
     if (isset($_SESSION['access_token'])) {
         $result = json_decode(json_encode(DB::select("SELECT id FROM users WHERE accessToken = ?", [$_SESSION['access_token']])), true);
         if (count($result) > 0) {
-            return redirect('/api/users/' . $result[0]['id'] . '?flow=session');
+            return redirect(env("FRONTEND_URL"));
         }
     }
 
@@ -62,7 +62,7 @@ $router->get('/api/login', function (Request $request) {
         $result = DB::select("SELECT id FROM users WHERE id = ?", [$user['id']]);
         
         if (count($result) == 0) { // user does not exist in database, insert
-            DB::insert("INSERT INTO `users` (`id`, `username`, `profileImageUrl`, `spotifyProfileUrl`, `email`, `followers`, `premium`, `accessToken`, `refreshToken`, 'updateEvery', 'dontSell', 'bio') VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$user['id'], $user['display_name'], $user['images'] ? $user['images'][0]['url'] : NULL, $user['external_urls']['spotify'], $user['email'], $user['followers']['total'], $user['product'] == 'premium' ? 1 : 0, $session->getAccessToken(), $session->getRefreshToken(), $user['updateEvery'], $user['dontSell'], $user['bio']]);
+            DB::insert("INSERT INTO `users` (`id`, `username`, `profileImageUrl`, `spotifyProfileUrl`, `email`, `followers`, `premium`, `accessToken`, `refreshToken`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [$user['id'], $user['display_name'], $user['images'] ? $user['images'][0]['url'] : NULL, $user['external_urls']['spotify'], $user['email'], $user['followers']['total'], $user['product'] == 'premium' ? 1 : 0, $session->getAccessToken(), $session->getRefreshToken()]);
         } else { // user exists, update access and refresh tokens
             DB::update("UPDATE `users` SET `accessToken` = ?, `refreshToken` = ? WHERE `users`.`id` = ?", [$session->getAccessToken(), $session->getRefreshToken(), $user['id']]);
         }
@@ -70,7 +70,7 @@ $router->get('/api/login', function (Request $request) {
         // store access token in the session
         $_SESSION['access_token'] = $session->getAccessToken();
 
-        return redirect('/api/users/' . $user['id'] . '?flow=spotifyAuth');
+        return redirect(env("FRONTEND_URL"));
     } else {
         $options = [
             'scope' => [
@@ -89,11 +89,15 @@ $router->get('/api/login', function (Request $request) {
 $router->get('/api/logout', function() {
     // simply destroy the access token and return to index
     unset($_SESSION['access_token']);
-    return redirect('/api');
+    return redirect(env("FRONTEND_URL"));
 });
 
 $router->get('/api/users/{id}', function($id, Request $request) {
     return response()->json(getUser($id));
+});
+
+$router->get('/api/user', function(Request $request) {
+    return response()->json(getUser());
 });
 
 $router->get('/api/test', function(Request $request) {
@@ -146,13 +150,22 @@ function getSpotifyApi($userId) {
     return $api;
 }
 
-function getUser($id) {
-    $result = json_decode(json_encode(DB::select("SELECT id, username, profileImageUrl, spotifyProfileUrl, email, followers, premium, updateEvery, dontSell, bio FROM users WHERE id = ?", [$id])), true)[0];
-    
-    # premium is stored as TINYINT in database, but we need it as a boolean in the JSON object we return
-    $result['premium'] = $result['premium'] == 1;
-    
-    return $result;
+function getUser($id=NULL) {
+    if($id) {
+        $result = json_decode(json_encode(DB::select("SELECT id, username, profileImageUrl, spotifyProfileUrl, email, followers, premium FROM users WHERE id = ?", [$id])), true);
+    } else if (isset($_SESSION['access_token'])) { // get by session
+        $result = json_decode(json_encode(DB::select("SELECT id, username, profileImageUrl, spotifyProfileUrl, email, followers, premium FROM users WHERE accessToken = ?", [$_SESSION['access_token']])), true);
+    } else {
+        return null;
+    }
+
+    if (count($result)) {
+        # premium is stored as TINYINT in database, but we need it as a boolean in the JSON object we return
+        $result[0]['premium'] = $result[0]['premium'] == 1;
+        return $result[0];
+    } else {
+        return null;
+    }
 }
 
 function isSignedIn() {

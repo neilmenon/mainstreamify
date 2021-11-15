@@ -14,13 +14,13 @@ export class UserModel {
 
 
     constructor() {
-        this.username = "Neil Menon"
-        this.profileImageUrl = "https://lastfm.freetls.fastly.net/i/u/avatar170s/02008e31039a5ac85de35251b6cebae1.png"
-        this.spotifyProfileUrl = "https://open.spotify.com/user/hindxqag4cr2giyxcn08jqtj7"
+        this.username = null
+        this.profileImageUrl = null
+        this.spotifyProfileUrl = null
         this.registeredDate = moment()
-        this.email = "test@virginia.edu"
-        this.followers = 546
-        this.premium = true
+        this.email = null
+        this.followers = null
+        this.premium = null
         this.updateEvery = 30;
         this.dontSell = true;
         this.bio = "Bio bio things";

@@ -60,6 +60,8 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('cors');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -72,9 +74,9 @@ $app->configure('app');
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    'Nord\Lumen\Cors\CorsMiddleware',
+]);
 
 // $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
@@ -94,6 +96,8 @@ $app->configure('app');
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+$app->register('Nord\Lumen\Cors\CorsServiceProvider');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -111,6 +115,8 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+
+
 
 /*  Start a native PHP session */
 session_start();
