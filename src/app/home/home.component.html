@@ -1,17 +1,39 @@
 <div *ngIf="signed_in; else signInPrompt">
-    <div class="box">
+    <div class="box center-all">
         <h2>Welcome to Mainstreamify, {{ user?.username }}!</h2>
         <div>
-            <p id="errortag" style="visibility: hidden;">Invalid Input: Please Enter artists or tracks</p>
-            <form onsubmit="validate()">
-                <h3 class="box-title">Profile Description</h3>
-                <p>Top artists or Top tracks?</p>
-                <mat-form-field appearance="legacy" color="accent" style="width: 35%">
-                    <textarea matInput  type="text" formControlName="top" id="topinput"></textarea>
+            <strong>Let's check your recent tracks!</strong><br><br>
+            <div class="alert alert-error" *ngIf="recentSubmitClicked && recentErrors.length">
+                Please fix the errors below:
+                <li *ngFor="let item of recentErrors">{{ item }}</li>
+            </div>
+            <form [formGroup]="recentForm" id="recentForm">
+                <mat-form-field appearance="legacy" style="width: 50px;" color="accent">
+                    <input matInput type="number" placeholder="Limit" formControlName="limit">
                 </mat-form-field>
-                <button color="accent" mat-raised-button id="topbtn" color="primary" type="submit">Get Tops</button>
+                <mat-form-field appearance="legacy">
+                    <mat-label>After</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="after">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="legacy">
+                    <mat-label>Before</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="before">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+                <button mat-raised-button id="topbtn" color="primary" (click)="submitRecentTracks()">Submit</button>
             </form>
-            <h3 id="toplabel" class="invis">Here's who you vibe with: {{"insert top artists here"}}</h3>
+        </div>
+        <div id="recentTracksResults">
+            <div *ngFor="let item of recentResults">
+                <span style="color: #bfbfbf;">{{ moment(item.played_at).fromNow() }}</span><br>
+                <a href="{{ item.track.external_urls.spotify }}" target="_blank"><img src="{{ item.track.album.images[1].url }}" width="120px"></a><br>
+                <em>{{ item.track.name }}</em><br>
+                {{ item.track.artists[0].name }}<br>
+                {{ item.track.album.name }}
+            </div>
         </div>
     </div>
 </div>

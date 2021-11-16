@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MessageService } from '../message.service';
+import { UserModel } from '../models/userModel';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,21 +13,44 @@ import { MessageService } from '../message.service';
 })
 export class SettingsComponent implements OnInit {
   settingsForm: FormGroup
+  showBioError: boolean
+  user: UserModel
   constructor(
     private fb: FormBuilder,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.settingsForm = this.fb.group({
-      timePeriod: [null],
-      dontSellData: [false],
-      description: []
+      bio: [null, Validators.maxLength(250)]
     })
-    this.settingsForm.valueChanges.pipe(debounceTime(1000), distinctUntilChanged()).subscribe(() => {
+    this.settingsForm.valueChanges.pipe(debounceTime(100), distinctUntilChanged()).subscribe(() => {
+      if (this.settingsForm.controls['bio'].value?.length > 250) {
+        this.showBioError = true
+      } else {
+        this.showBioError = false
+      }
     })
     
+    this.userService.getUser().toPromise().then((data: any) => {
+      if (data?.id) {
+        this.user = data
+        this.settingsForm.patchValue(this.user)
+      }
+    })
+  }
+
+  submitProfileBio() {
+    if (this.settingsForm.valid) {
+      this.messageService.open("Submitting user settings.", "center", true)
+      this.userService.updateBio(this.settingsForm.controls['bio'].value).toPromise().then(() => {
+        this.messageService.open("Successfully updated user settings.")
+      }).catch(() => {
+        this.messageService.open("There was an error updating user settings!")
+      })
+    }
   }
 
   deleteAccount() {

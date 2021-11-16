@@ -1,0 +1,14 @@
+#recentForm > *:not(:last-child) {
+    margin-right: 1rem;
+}
+#recentTracksResults {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+    justify-content: center;
+}
+
+#recentTracksResults > div {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}

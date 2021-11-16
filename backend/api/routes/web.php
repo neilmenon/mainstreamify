@@ -101,6 +101,21 @@ $router->get('/api/user', function(Request $request) {
     return response()->json(getUser());
 });
 
+$router->post('/api/update-bio', function(Request $request) {
+    if (!isSignedIn()) {
+        return abortIfNotAuthenticated();
+    }
+    $user = getUserBySession();
+
+    if (!request()->exists('bio')) {
+        return response()->json(["error" => "Must specify bio field."], 400);
+    } else {
+        DB::update("UPDATE `users` SET bio = ? WHERE `users`.`id` = ?", [request()->input('bio'), $user['id']]);
+    }
+
+    return true;
+});
+
 $router->get('/api/test', function(Request $request) {
     return response()->json($_SESSION);
 });
@@ -117,6 +132,29 @@ $router->post('/api/top', function() {
     }
 
     $topResults = $api->getMyTop(request()->input('type'));
+
+    return response()->json($topResults);
+});
+
+$router->post('/api/recent', function() {
+    if (!isSignedIn()) {
+        return abortIfNotAuthenticated();
+    }
+    $user = getUserBySession();
+    $api = getSpotifyApi($user['id']);
+
+    $opts;
+    if (request()->input('limit') != NULL) {
+        $opts["limit"] = request()->input('limit');
+    }
+    if (request()->input('before') != NULL) {
+        $opts["before"] = request()->input('before');
+    }
+    if (request()->input('after') != NULL) {
+        $opts["after"] = request()->input('after');
+    }
+
+    $topResults = $api->getMyRecentTracks($opts);
 
     return response()->json($topResults);
 });
@@ -153,9 +191,9 @@ function getSpotifyApi($userId) {
 
 function getUser($id=NULL) {
     if($id) {
-        $result = json_decode(json_encode(DB::select("SELECT id, username, profileImageUrl, spotifyProfileUrl, email, followers, premium FROM users WHERE id = ?", [$id])), true);
+        $result = json_decode(json_encode(DB::select("SELECT id, username, profileImageUrl, spotifyProfileUrl, email, followers, premium, bio FROM users WHERE id = ?", [$id])), true);
     } else if (isset($_SESSION['access_token'])) { // get by session
-        $result = json_decode(json_encode(DB::select("SELECT id, username, profileImageUrl, spotifyProfileUrl, email, followers, premium FROM users WHERE accessToken = ?", [$_SESSION['access_token']])), true);
+        $result = json_decode(json_encode(DB::select("SELECT id, username, profileImageUrl, spotifyProfileUrl, email, followers, premium, bio FROM users WHERE accessToken = ?", [$_SESSION['access_token']])), true);
     } else {
         return null;
     }

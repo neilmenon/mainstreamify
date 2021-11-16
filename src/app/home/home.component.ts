@@ -1,6 +1,8 @@
 import { visitAll } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import * as moment from 'moment';
+import { MessageService } from '../message.service';
 import { UserModel } from '../models/userModel';
 import { UserService } from '../user.service';
 
@@ -12,11 +14,16 @@ import { UserService } from '../user.service';
 export class HomeComponent implements OnInit {
   signed_in: boolean = false
   user: UserModel
-  topForm: FormGroup
+  recentForm: FormGroup
+  moment: any = moment
+  recentSubmitClicked: boolean
+  recentErrors: Array<string> = []
+  recentResults: any
 
   constructor(
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +36,48 @@ export class HomeComponent implements OnInit {
       }
     })
 
+    this.recentForm = this.fb.group({
+      limit: [50],
+      before: [null], // end date
+      after: [null] // start date
+    })
+
+    this.recentForm.valueChanges.subscribe(() => {
+      this.recentErrors = []
+      if (this.recentForm.controls['limit'].value < 1 || this.recentForm.controls['limit'].value > 50) {
+        this.recentErrors.push("Invalid track limit. Limit must be between 1 and 50.")
+      }
+      if (this.recentForm.controls['before'].value && this.recentForm.controls['after'].value) {
+          this.recentErrors.push("Specify either a before or after parameter, but not both")
+      }
+    })
+  }
+
+  submitRecentTracks() {
+    this.recentSubmitClicked = true
+    if (this.recentErrors.length == 0 && this.recentForm.valid) {
+      this.getRecentTracksAJAX(
+        this.recentForm.controls['limit'].value,
+        this.recentForm.controls['before'].value ? this.recentForm.controls['before'].value.unix() : null,
+        this.recentForm.controls['after'].value ? this.recentForm.controls['after'].value.unix() : null
+      )
+    }
+  }
+
+  getRecentTracksAJAX(limit: number, before: string = null, after: string = null) {
+    this.messageService.open("Submitting...", "center", true)
+    var xmlhttp = new XMLHttpRequest()
+    xmlhttp.open("POST", "/api/recent")
+    xmlhttp.responseType = 'json';
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+    xmlhttp.send(JSON.stringify({ "limit": limit, "before": before, "after": after }))
+    xmlhttp.onreadystatechange = () => {
+      if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          this.recentResults = xmlhttp.response?.items
+          console.log(this.recentResults)
+          this.messageService.open("Successfully retrieved recent tracks.")
+      }
+   }
   }
 
   signOut() {

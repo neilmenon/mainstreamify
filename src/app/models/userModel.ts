@@ -8,7 +8,7 @@ export class UserModel {
     email: string
     followers: number
     premium: boolean
-
+    bio: string
 
     constructor() {
         this.username = null
