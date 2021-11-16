@@ -1,3 +1,4 @@
+import { visitAll } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserModel } from '../models/userModel';
@@ -36,6 +37,21 @@ export class HomeComponent implements OnInit {
 
   signIn() {
     this.userService.signIn()
+  }
+
+  //validate home page top form
+  validate(){
+    var biofield = <HTMLInputElement>document.getElementById("topinput")
+
+    //valid input
+    if(biofield.value == "artists" || biofield.value == "tracks"){
+      //send get request
+    }
+    //invalid input
+    else{
+      document.getElementById("errortag").style.visibility = "visible"
+
+    }
   }
 
 }

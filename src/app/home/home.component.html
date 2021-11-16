@@ -1,6 +1,18 @@
 <div *ngIf="signed_in; else signInPrompt">
     <div class="box">
         <h2>Welcome to Mainstreamify, {{ user?.username }}!</h2>
+        <div>
+            <p id="errortag" style="visibility: hidden;">Invalid Input: Please Enter artists or tracks</p>
+            <form onsubmit="validate()">
+                <h3 class="box-title">Profile Description</h3>
+                <p>Top artists or Top tracks?</p>
+                <mat-form-field appearance="legacy" color="accent" style="width: 35%">
+                    <textarea matInput  type="text" formControlName="top" id="topinput"></textarea>
+                </mat-form-field>
+                <button color="accent" mat-raised-button id="topbtn" color="primary" type="submit">Get Tops</button>
+            </form>
+            <h3 id="toplabel" class="invis">Here's who you vibe with: {{"insert top artists here"}}</h3>
+        </div>
     </div>
 </div>
 <ng-template #signInPrompt>

@@ -1,8 +1,9 @@
 <div class="box center">
     <div class="settings center-all">
-        <p id="savedtag">Settings Saved!</p>
+        <p id="savedtag" style="visibility: hidden;">Settings Saved!</p>
+        <p id="errortag" style="visibility: hidden;">Error in Bio: Exceeds 500 chars</p>
         <h1 class="clear-color-full">Settings</h1>
-        <form [formGroup]="settingsForm" class="settings-form">
+        <form onsubmit="validateProfile()" [formGroup]="settingsForm" class="settings-form">
             <h3 class="box-title">Main Dashboard Settings</h3>
             <p>Default frequency for mainstream calculations.</p>
             <mat-form-field appearance="legacy" color="accent">
@@ -18,7 +19,7 @@
             <h3 class="box-title">Profile Description</h3>
             <p>Enter a cool description for your profile here (e.g. favorite artists, genres, and musical taste).</p>
             <mat-form-field appearance="legacy" color="accent" style="width: 35%">
-                <textarea matInput placeholder="My name is John Doe and my favorite artists are Foals, Coldplay, and Avicii" type="text" formControlName="description"></textarea>
+                <textarea matInput placeholder="My name is John Doe and my favorite artists are Foals, Coldplay, and Avicii" type="text" formControlName="description" id="bio"></textarea>
             </mat-form-field>
             <h3 class="box-title">Privacy Settings</h3>
             <div style="margin-bottom: 1rem;">
