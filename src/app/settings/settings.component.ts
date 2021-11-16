@@ -35,11 +35,27 @@ export class SettingsComponent implements OnInit {
     }, 3000)
   }
 
-  validate(){
+  //validate profile edit and notify user of saved profile
+  validateProfile(){
+    var biofield = <HTMLInputElement>document.getElementById("bio")
+    
+    //valid inputs
+    if(biofield.value.length < 500 && !biofield.value.includes("Apple Music")){
+      //make post request with input fields to endpoint
 
+      this.messageService.open("Successfully saved user settings.")
+      //make saved tag visible
+       document.getElementById("savedtag").style.visibility = "visible";
 
-    this.messageService.open("Successfully saved user settings.")
-    document.getElementById("savedtag").style.visibility = "visible";
+    }
+    //invalid inputs
+    else{
+      //invalid bio input exceeded 500 char or contained "Apple Music"
+      //displaying error tag
+      document.getElementById("errortag").style.visibility = "visible";
+    }
+    
+
   }
 
 

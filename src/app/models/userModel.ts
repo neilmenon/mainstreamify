@@ -8,7 +8,6 @@ export class UserModel {
     email: string
     followers: number
     premium: boolean
-    bio: string
 
 
     constructor() {
@@ -19,6 +18,6 @@ export class UserModel {
         this.email = null
         this.followers = null
         this.premium = null
-        this.bio = "Bio bio things";
+
     }
 }
