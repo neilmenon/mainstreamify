@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserModel } from '../models/userModel';
 import { UserService } from '../user.service';
 
@@ -10,8 +11,12 @@ import { UserService } from '../user.service';
 export class HomeComponent implements OnInit {
   signed_in: boolean = false
   user: UserModel
+  topForm: FormGroup
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
     this.userService.getUser().toPromise().then((data: any) => {
@@ -22,6 +27,7 @@ export class HomeComponent implements OnInit {
         this.user = data
       }
     })
+
   }
 
   signOut() {

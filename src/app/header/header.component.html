@@ -11,6 +11,10 @@
             <span class="navbar-menu-username">
               {{ user.username }}
             </span>
+            <span style="color: #bfbfbf;">
+              Followers: {{ user?.followers }}<br>
+              Email: {{ user?.email }}
+            </span>
           </span>
           <button mat-menu-item [routerLink]="['/']">Home</button>
           <button mat-menu-item [routerLink]="['profile']">Profile</button>
@@ -31,14 +35,18 @@
               <span class="navbar-menu-username">
                 {{ user.username }}
               </span>
+              <span style="color: #bfbfbf;">
+                Followers: {{ user?.followers }}<br>
+                Email: {{ user?.email }}
+              </span>
             </span>
             <button mat-menu-item [routerLink]="['/']">Home</button>
             <button mat-menu-item [routerLink]="['profile']">Profile</button>
             <button mat-menu-item [routerLink]="['profile/edit']">Settings</button>
-            <button mat-menu-item [routerLink]="['/']">Sign Out</button>
+            <button mat-menu-item (click)="signOut()">Sign Out</button>
           </mat-menu>
         </a>
-        <button color="accent" mat-raised-button id="toggleTheme" color="primary">Toggle Theme</button>
+        <button color="accent" mat-raised-button id="toggleTheme">Toggle Header Theme</button>
       </span>
     </mat-toolbar>
     <ng-content></ng-content>
