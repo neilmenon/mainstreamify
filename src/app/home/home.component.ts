@@ -2,6 +2,7 @@ import { visitAll } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
+import { config } from '../config';
 import { MessageService } from '../message.service';
 import { UserModel } from '../models/userModel';
 import { UserService } from '../user.service';
@@ -67,7 +68,7 @@ export class HomeComponent implements OnInit {
   getRecentTracksAJAX(limit: number, before: string = null, after: string = null) {
     this.messageService.open("Submitting...", "center", true)
     var xmlhttp = new XMLHttpRequest()
-    xmlhttp.open("POST", "/api/recent")
+    xmlhttp.open("POST", config.api_root + "api/recent")
     xmlhttp.responseType = 'json';
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
     xmlhttp.send(JSON.stringify({ "limit": limit, "before": before, "after": after }))

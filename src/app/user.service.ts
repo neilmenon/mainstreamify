@@ -10,19 +10,19 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   signIn() {
-    window.location.href = '/api/login'
+    window.location.href = config.api_root + 'api/login'
   }
 
   signOut() {
-    window.location.href = '/api/logout'
+    window.location.href = config.api_root + 'api/logout'
   }
 
   getUser() {
-    return this.http.get('/api/user')
+    return this.http.get(config.api_root + 'api/user')
   }
 
   updateBio(bio: string) {
-    return this.http.post('/api/update-bio', { bio: bio })
+    return this.http.post(config.api_root + 'api/update-bio', { bio: bio })
   }
 
 }
