@@ -29,14 +29,14 @@ php -S localhost:8000 -t public
 |
 */
 
-$router->get('/api', function () {
+$router->get('/', function () {
     return response()->json([
         "message" => "This is the API index for the app mainstreamify. Powered by Lumen by Laravel.",
         "signedIn" => isSignedIn()
     ]);
 });
 
-$router->get('/api/login', function (Request $request) {
+$router->get('/login', function (Request $request) {
     // user already has a session/registered with the app?
     if (isset($_SESSION['access_token'])) {
         $result = json_decode(json_encode(DB::select("SELECT id FROM users WHERE accessToken = ?", [$_SESSION['access_token']])), true);
@@ -87,21 +87,21 @@ $router->get('/api/login', function (Request $request) {
     }
 });
 
-$router->get('/api/logout', function() {
+$router->get('/logout', function() {
     // simply destroy the access token and return to index
     unset($_SESSION['access_token']);
     return redirect(env("FRONTEND_URL"));
 });
 
-$router->get('/api/users/{id}', function($id, Request $request) {
+$router->get('/users/{id}', function($id, Request $request) {
     return response()->json(getUser($id));
 });
 
-$router->get('/api/user', function(Request $request) {
+$router->get('/user', function(Request $request) {
     return response()->json(getUser());
 });
 
-$router->post('/api/update-bio', function(Request $request) {
+$router->post('/update-bio', function(Request $request) {
     if (!isSignedIn()) {
         return abortIfNotAuthenticated();
     }
@@ -116,11 +116,11 @@ $router->post('/api/update-bio', function(Request $request) {
     return true;
 });
 
-$router->get('/api/test', function(Request $request) {
+$router->get('/test', function(Request $request) {
     return response()->json($_SESSION);
 });
 
-$router->post('/api/top', function() {
+$router->post('/top', function() {
     if (!isSignedIn()) {
         return abortIfNotAuthenticated();
     }
@@ -136,7 +136,7 @@ $router->post('/api/top', function() {
     return response()->json($topResults);
 });
 
-$router->post('/api/recent', function() {
+$router->post('/recent', function() {
     if (!isSignedIn()) {
         return abortIfNotAuthenticated();
     }
