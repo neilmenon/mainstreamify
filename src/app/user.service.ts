@@ -21,6 +21,14 @@ export class UserService {
     return this.http.get(config.api_root + '/user')
   }
 
+  getPlayingStatus() {
+    return this.http.get(config.api_root + '/status')
+  }
+
+  getTop(type: string) {
+    return this.http.post(config.api_root + '/top', { "type": type })
+  }
+
   updateBio(bio: string) {
     return this.http.post(config.api_root + 'api/update-bio', { bio: bio })
   }

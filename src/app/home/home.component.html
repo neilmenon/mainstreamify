@@ -1,46 +1,105 @@
 <div *ngIf="signed_in; else signInPrompt">
     <div class="box center-all">
-        <h2>Welcome to Mainstreamify, {{ user?.username }}!</h2>
-        <div>
-            <strong>Let's check your recent tracks!</strong><br><br>
-            <div class="alert alert-error" *ngIf="recentSubmitClicked && recentErrors.length">
-                Please fix the errors below:
-                <li *ngFor="let item of recentErrors">{{ item }}</li>
-            </div>
-            <form [formGroup]="recentForm" id="recentForm">
-                <mat-form-field appearance="legacy" style="width: 50px;" color="accent">
-                    <input matInput type="number" placeholder="Limit" formControlName="limit">
-                </mat-form-field>
-                <mat-form-field appearance="legacy">
-                    <mat-label>After</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="after">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-                <mat-form-field appearance="legacy">
-                    <mat-label>Before</mat-label>
-                    <input matInput [matDatepicker]="picker2" formControlName="before">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                </mat-form-field>
-                <button mat-raised-button id="topbtn" color="primary" (click)="submitRecentTracks()">Submit</button>
-            </form>
-        </div>
-        <div id="recentTracksResults">
-            <div *ngFor="let item of recentResults">
-                <span style="color: #bfbfbf;">{{ moment(item.played_at).fromNow() }}</span><br>
-                <a href="{{ item.track.external_urls.spotify }}" target="_blank"><img src="{{ item.track.album.images[1].url }}" width="120px"></a><br>
-                <em>{{ item.track.name }}</em><br>
-                {{ item.track.artists[0].name }}<br>
-                {{ item.track.album.name }}
-            </div>
-        </div>
+        <h2>Welcome to Spotify Dashboard, {{ user?.username }}!</h2>
+        <mat-tab-group>
+            <mat-tab label="Recent Tracks"> 
+                <div class="tab-content">
+                    <div>
+                        <strong>Let's check your recent tracks!</strong><br><br>
+                        <div class="alert alert-error" *ngIf="recentSubmitClicked && recentErrors.length">
+                            Please fix the errors below:
+                            <li *ngFor="let item of recentErrors">{{ item }}</li>
+                        </div>
+                        <form [formGroup]="recentForm" id="recentForm">
+                            <mat-form-field appearance="legacy" style="width: 50px;" color="accent">
+                                <input matInput type="number" placeholder="Limit" formControlName="limit">
+                            </mat-form-field>
+                            <mat-form-field appearance="legacy">
+                                <mat-label>After</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="after">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field appearance="legacy">
+                                <mat-label>Before</mat-label>
+                                <input matInput [matDatepicker]="picker2" formControlName="before">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                            <button mat-raised-button id="topbtn" color="primary" (click)="submitRecentTracks()">Submit</button>
+                        </form>
+                    </div>
+                    <div *ngIf="mainstreamFactor >= 0">
+                        <h3>Mainstream Factor: {{ mainstreamFactor }}%</h3>
+                        <p>Your recent tracks are <strong>{{ mainstreamFactor }}%</strong> mainstream.</p>
+                    </div>
+                    <div class="recentTracksResults">
+                        <div *ngFor="let item of recentResults">
+                            <span style="color: #bfbfbf;">{{ moment(item.played_at).fromNow() }}</span><br>
+                            <a href="{{ item.track.external_urls.spotify }}" target="_blank"><img src="{{ item.track.album.images[1].url }}" width="120px"></a><br>
+                            <em>{{ item.track.name }}</em><br>
+                            {{ item.track.artists[0].name }}<br>
+                            {{ item.track.album.name }}
+                        </div>
+                    </div>
+                </div> 
+            </mat-tab>
+            <mat-tab label="Playing Status & Info">
+                <div class="tab-content" *ngIf="status?.device; else notPlaying">
+                    <h3>Playing Information</h3>
+                    <div class="tab-form" *ngIf="status?.device">
+                        <span class="beta">{{ status?.is_playing ? "CURRENTLY LISTENING" : "NOT PLAYING" }}</span><br><br>
+                        <span style="color: #bfbfbf;">{{ moment(status?.timestamp).fromNow() }}</span><br>
+                        <a href="{{ status?.item?.external_urls.spotify }}" target="_blank"><img src="{{ status?.item?.album?.images[1]?.url }}" width="120px"></a><br>
+                        <em>{{ status?.item.name }}</em><br>
+                        {{ status?.item?.artists[0]?.name }}<br>
+                        {{ status?.item?.album?.name }}<br><br>
+                        
+                        <strong>Track Popularity — {{ status?.item?.popularity }}%</strong><br>
+                        <mat-progress-bar mode="determinate" color="warn" [value]="status?.item?.popularity" style="width: 50%; margin: auto;"></mat-progress-bar>
+                    </div>
+                    <h3>Device Information</h3>
+                    <div class="tab-form" *ngIf="status?.device">
+                        Private Session: <strong>{{ status?.device?.is_private_session ? "Yes" : "No" }}</strong> • Device Name: <strong>{{ status?.device?.name }}</strong>
+                    </div>
+                </div>
+                <ng-template #notPlaying>
+                    <div class="tab-content">
+                        There is no playback information to show at this time. Are you playing music?
+                    </div>
+                </ng-template>
+            </mat-tab>
+            <mat-tab label="Top Artists / Tracks">
+                <div class="tab-content">
+                    <h3>Top Artists</h3>
+                    <div class="tab-form recentTracksResults" >
+                        <div *ngFor="let item of topArtists; let i = index">
+                            <span style="color: #bfbfbf;">#{{ i+1 }}</span><br>
+                            <a href="{{ item.external_urls.spotify }}" target="_blank"><img src="{{ item.images[1].url }}" width="120px"></a><br>
+                            {{ item.name }}<br>
+                            Popularity: <strong>{{ item.popularity }}%</strong><br>
+                            Followers: <strong>{{ item.followers.total | number}}</strong>
+                        </div>
+                    </div>
+                    <h3>Top Tracks</h3>
+                    <div class="tab-form recentTracksResults" >
+                        <div *ngFor="let item of topTracks; let i = index">
+                            <span style="color: #bfbfbf;">#{{ i+1 }}</span><br>
+                            <a href="{{ item.external_urls.spotify }}" target="_blank"><img src="{{ item.album.images[1].url }}" width="120px"></a><br>
+                            <em>{{ item.name }}</em><br>
+                            {{ item.artists[0].name }}<br>
+                            {{ item.album.name }}
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+          </mat-tab-group>
     </div>
 </div>
 <ng-template #signInPrompt>
     <div *ngIf="!signed_in" class="center-h-v">
-        <h2>Welcome to Mainstreamify!</h2>
-        Mainstreamify puts some helpful numbers to your musical taste so you can better understand your listening habits.<br>
+        <h2>Welcome to Spotify Dashboard</h2>
+        Spotify Dashboard is a handy ulitity to extend your Spotify account with extra stats!<br>
         Sign in with your Spotify account to get started.<br><br>
         <div>
             <a (click)="signIn()" target="_blank"><button color="primary" mat-raised-button style="margin-right: 1rem;">Sign In with Spotify</button></a>

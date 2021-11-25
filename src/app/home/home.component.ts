@@ -20,6 +20,10 @@ export class HomeComponent implements OnInit {
   recentSubmitClicked: boolean
   recentErrors: Array<string> = []
   recentResults: any
+  status: any
+  mainstreamFactor: number
+  topTracks: any = []
+  topArtists: any = []
 
   constructor(
     private userService: UserService,
@@ -52,6 +56,13 @@ export class HomeComponent implements OnInit {
           this.recentErrors.push("Specify either a before or after parameter, but not both")
       }
     })
+
+    this.userService.getPlayingStatus().toPromise().then((data: any) => {
+      this.status = data
+    })
+
+    this.userService.getTop("tracks").toPromise().then((data: any) => { this.topTracks = data?.items })
+    this.userService.getTop("artists").toPromise().then((data: any) => { this.topArtists = data?.items })
   }
 
   submitRecentTracks() {
@@ -68,13 +79,18 @@ export class HomeComponent implements OnInit {
   getRecentTracksAJAX(limit: number, before: string = null, after: string = null) {
     this.messageService.open("Submitting...", "center", true)
     var xmlhttp = new XMLHttpRequest()
-    xmlhttp.open("POST", config.api_root + "api/recent")
+    xmlhttp.open("POST", config.api_root + "/recent")
     xmlhttp.responseType = 'json';
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
     xmlhttp.send(JSON.stringify({ "limit": limit, "before": before, "after": after }))
     xmlhttp.onreadystatechange = () => {
       if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
           this.recentResults = xmlhttp.response?.items
+          let tmp: number = 0
+          this.recentResults.forEach(x => {
+            tmp += x?.track?.popularity
+          })
+          this.mainstreamFactor = Math.ceil(tmp / limit)
           console.log(this.recentResults)
           this.messageService.open("Successfully retrieved recent tracks.")
       }

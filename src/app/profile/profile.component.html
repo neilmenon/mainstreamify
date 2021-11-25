@@ -15,7 +15,7 @@
     <p>{{ user.followers }} followers | Email: {{ user.email }}</p>
     <span style="display: block; padding: 1rem;">
         User Status: 
-        <span class="beta" style="background-color: goldenrod;">
+        <span class="beta" [style.background-color]="user.premium ? 'goldenrod' : '#bfbfbf'">
             <mat-icon [inline]="true">{{ user.premium ? 'workspace_premium' : '' }}</mat-icon>
             {{ user.premium ? 'PREMIUM' : 'FREE' }}
         </span>

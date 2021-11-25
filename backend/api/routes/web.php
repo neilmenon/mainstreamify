@@ -79,6 +79,7 @@ $router->get('/login', function (Request $request) {
                 'user-read-private',
                 'user-top-read',
                 'user-read-recently-played',
+                'user-read-playback-state'
             ],
         ];
     
@@ -114,10 +115,6 @@ $router->post('/update-bio', function(Request $request) {
     }
 
     return true;
-});
-
-$router->get('/test', function(Request $request) {
-    return response()->json($_SESSION);
 });
 
 $router->post('/top', function() {
@@ -157,6 +154,19 @@ $router->post('/recent', function() {
     $topResults = $api->getMyRecentTracks($opts);
 
     return response()->json($topResults);
+});
+
+$router->get('/status', function() {
+    if (!isSignedIn()) {
+        return abortIfNotAuthenticated();
+    }
+    $user = getUserBySession();
+    $api = getSpotifyApi($user['id']);
+
+
+    $status = $api->getMyCurrentPlaybackInfo();
+
+    return response()->json($status);
 });
 
 function getSpotifyApi($userId) {

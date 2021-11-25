@@ -29,6 +29,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { LayoutModule } from '@angular/cdk/layout';
+import { MatTabsModule } from '@angular/material/tabs';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -81,6 +83,7 @@ import { SettingsComponent } from './settings/settings.component';
     MatRadioModule,
     MatCheckboxModule,
     MatButtonModule,
+    MatTabsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'profile', component: ProfileComponent },

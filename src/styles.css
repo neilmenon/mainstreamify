@@ -94,13 +94,20 @@ body {
     margin: auto;
 }
 
+.tab-form {
+    padding: 1rem;
+    border: 0.5px solid #696969;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 a {
     color: darkseagreen;
     text-decoration: none;
 }
 
 h1,h2,h3,h4,h5,h6 {
-    color: #c73e6c;
+    color: #e2e2e2;
 }
 
 hr {

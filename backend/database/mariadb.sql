@@ -30,8 +30,8 @@ CREATE TABLE `users` (
   `email` varchar(191) NOT NULL,
   `followers` int(11) NOT NULL,
   `premium` tinyint(1) NOT NULL,
-  `accessToken` varchar(191) DEFAULT NULL,
-  `refreshToken` varchar(191) DEFAULT NULL,
+  `accessToken` varchar(1000) DEFAULT NULL,
+  `refreshToken` varchar(1000) DEFAULT NULL,
   `bio` varchar(500) DEFAULT NULL,
 
   PRIMARY KEY (`id`)

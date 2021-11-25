@@ -10,3 +10,9 @@
 .blacktext{
     color: black;
 }
+.header-fix {
+    position: absolute;
+    top: -2px;
+    right: 11rem;
+    padding-top: 1rem;
+}
