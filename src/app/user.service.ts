@@ -30,7 +30,7 @@ export class UserService {
   }
 
   updateBio(bio: string) {
-    return this.http.post(config.api_root + 'api/update-bio', { bio: bio })
+    return this.http.post(config.api_root + '/update-bio', { bio: bio })
   }
 
 }
